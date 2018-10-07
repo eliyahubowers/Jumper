@@ -7,25 +7,32 @@ import javax.swing.JPanel;
 
 public class Jumper {
 	JFrame jf;
-	JPanel jp;
+	
+	GamePanel gp;
 	
 	final int h = 800;
 	final int w = 500;
+	
+	Jumper(){
+		jf = new JFrame();
+		gp = new GamePanel();		
+	}
 	
 	public static void main(String[] args) {
 		new Jumper().setup();
 	}
 	
 	void setup() {
-		jf = new JFrame();
-		jp = new JPanel();
-		jf.add(jp);
+		jf.add(gp);
+		jf.addKeyListener(gp);
 		jf.setSize(w, h);
 		jf.setVisible(true);
 		jf.setTitle("Jumper");
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.getContentPane().setPreferredSize(new Dimension(w, h));
         jf.pack();
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.pack();
+        gp.StartGame();
 	}
 	
 }
