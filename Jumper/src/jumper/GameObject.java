@@ -8,37 +8,23 @@ public class GameObject {
 	int y;
 	int width;
 	int height;	
-	int speed;
 	
-	int ymomentum;
-	int xmomentum;
+	boolean isAlive;
 	
-	GameObject(int x, int y, int width, int height, int speed, int xmomentum, int ymomentum){
+	GameObject(int x, int y, int width, int height){
 		this.x = x; 
 		this.y =y; 
 		this.width = width; 
 		this.height = height;
-		this.speed = speed;
-		this. xmomentum = xmomentum;
-		this. ymomentum = ymomentum;
+		this.isAlive = true;
 	}
 	
 	void update() {
-		this.x+=(speed*xmomentum);
-		this.y+=(speed*ymomentum);
-		ymomentum = 0;
-		xmomentum = 0;
+
 	}
 	
 	void draw(Graphics g){
 		g.fillRect(this.x, this.y, 100, 100);
-	}
-	
-	void setymomentum(int a) {
-		this.ymomentum = a;
-	}
-	void setxmomentum(int a) {
-		this.xmomentum = a;
 	}
 	
 }

@@ -30,6 +30,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Timer t; 
 	
 	GameObject go;
+	Frog fu;
+	ObjectManager om;
 	
 	GamePanel(){
 		titleFont = new Font("Arial",Font.PLAIN,53);
@@ -37,7 +39,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		instructFont = new Font("Arial",Font.PLAIN,40);
 		deathFont = new Font("Arial",Font.PLAIN,53);
 		t = new Timer(1000/100,this);
-		go = new GameObject(100,100,100,100,100,0,0);
+		go = new GameObject(100,100,100,100);
+		fu = new Frog(250,700,25,25,25,0,0);
+		om = new ObjectManager(fu);
 	}
 	
 	void updateStartState() {
@@ -45,6 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void updateInstructionState() {
 	}	
 	void updateGameState() {
+		om.update();
 	}	
 	void updateEndState() {
 	}	
@@ -78,10 +83,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void drawGameState(Graphics g) {
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, 500, 800); 
+		om.draw(g);
 	}	
 	void drawEndState(Graphics g) {
 		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, 500, 800); 
+		g.setFont(deathFont);
+		g.setColor(Color.BLACK);
+		
+		g.drawString("You Died", 140, 100);
+		
+		g.setFont(titleFontt);
+		
+		g.drawString("Press ENTER to try again", 110, 300);
 	}	
 	void StartGame() {
 		t.start();
@@ -125,13 +139,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		System.out.println("Pressed");	
 		if(e.getKeyCode() == KeyEvent.VK_DOWN||e.getKeyCode() == KeyEvent.VK_S) {
-			go.setymomentum(1);
+			fu.setymomentum(1);
 		}else if(e.getKeyCode() == KeyEvent.VK_UP||e.getKeyCode() == KeyEvent.VK_W) {
-			go.setymomentum(-1);
+			fu.setymomentum(-1);
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D) {
-			go.setxmomentum(1);
+			fu.setxmomentum(1);
 		}else if(e.getKeyCode() == KeyEvent.VK_LEFT||e.getKeyCode() == KeyEvent.VK_A) {
-			go.setxmomentum(-1);
+			fu.setxmomentum(-1);
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE){
           currentState++;
