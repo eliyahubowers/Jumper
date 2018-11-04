@@ -13,12 +13,16 @@ public class Logs extends GameObject{
 	}
 	
 	void update() {
-		
+		this.x -= speed;
+		if(this.x < 0-this.width) {
+			isAlive = false;
+		}
 	}
 	
 	void draw(Graphics g) {
-		Color c = new Color(644405);
+		Color c = new Color(99,71,52);
 		g.setColor(c);
+		g.fillRect(x, y, width, height);
 	}
 	
 }

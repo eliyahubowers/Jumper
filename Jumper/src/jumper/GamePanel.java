@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -40,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		deathFont = new Font("Arial",Font.PLAIN,53);
 		t = new Timer(1000/100,this);
 		go = new GameObject(100,100,100,100);
-		fu = new Frog(250,700,25,25,25,0,0);
+		fu = new Frog(250,750,25,25,25,0,0);
 		om = new ObjectManager(fu);
 	}
 	
@@ -50,6 +51,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}	
 	void updateGameState() {
 		om.update();
+		om.manageLogs();
+		om.purgeObjects();
 	}	
 	void updateEndState() {
 	}	
@@ -83,6 +86,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void drawGameState(Graphics g) {
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, 500, 800); 
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 75, 500, 625);
 		om.draw(g);
 	}	
 	void drawEndState(Graphics g) {

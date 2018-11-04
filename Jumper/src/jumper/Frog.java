@@ -17,7 +17,7 @@ public class Frog extends GameObject{
 	}
 	
 	void draw(Graphics g){
-	        g.setColor(Color.BLUE);
+	        g.setColor(Color.GREEN);
 	        g.fillRect(x, y, width, height);		
 	}
 	
