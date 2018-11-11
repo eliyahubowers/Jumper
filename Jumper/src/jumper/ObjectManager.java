@@ -14,10 +14,13 @@ public class ObjectManager {
 	long logSpawnTime = 10; 
 	long logTimer = 0;
 	
+	int score;
+	
 	ObjectManager(Frog f){
 		
 		this.f = f;
-		logs = new ArrayList<Logs>();
+		logs = new ArrayList<Logs>();		
+		score = 0;
 		
 	}
 	
@@ -47,10 +50,17 @@ public class ObjectManager {
 		}
 	}
 	
+	void checkCollision() {
+		for(Logs l : logs){
+	        if(f.collisionBox.intersects(l.collisionBox)){
+	                f.againstCurrent = l.getSpeed();
+	        }
+	}
+	}
+	
 	public void manageLogs(){
-        if(System.currentTimeMillis() - logTimer >= logSpawnTime){
+        if(System.currentTimeMillis() - logTimer >= logSpawnTime) {
                 addLogs(new Logs(500, (new Random().nextInt(25)+3)*25, (new Random().nextInt(2)+3)*25, 25, 1));
-                System.out.println("hi");
                 logSpawnTime = new Random().nextInt(200)+100; 
                 logTimer = System.currentTimeMillis();
         }

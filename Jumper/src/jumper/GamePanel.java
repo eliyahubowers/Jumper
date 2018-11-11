@@ -53,6 +53,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		om.update();
 		om.manageLogs();
 		om.purgeObjects();
+		om.checkCollision();
+		if(fu.isAlive == false) {
+			currentState = END_STATE;
+		}
 	}	
 	void updateEndState() {
 	}	
@@ -155,6 +159,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE){
           currentState++;
 		  if(currentState > END_STATE){
+			  fu = new Frog(250,750,25,25,25,0,0);
+			  om = new ObjectManager(fu);
 	          currentState = START_STATE;
 		  }
 		}else if(e.getKeyCode() == KeyEvent.VK_SPACE) {

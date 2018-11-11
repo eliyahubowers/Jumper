@@ -13,10 +13,15 @@ public class Logs extends GameObject{
 	}
 	
 	void update() {
+		super.update();
 		this.x -= speed;
 		if(this.x < 0-this.width) {
 			isAlive = false;
 		}
+	}
+	
+	int getSpeed() {
+		return this.speed;
 	}
 	
 	void draw(Graphics g) {
