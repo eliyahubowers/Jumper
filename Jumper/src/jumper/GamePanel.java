@@ -34,6 +34,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Frog fu;
 	ObjectManager om;
 	
+	Color c;
+	
 	GamePanel(){
 		titleFont = new Font("Arial",Font.PLAIN,53);
 		titleFontt = new Font("Arial",Font.PLAIN,25);
@@ -88,8 +90,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.drawString("to cross the river safely", 30, 440);
 	}	
 	void drawGameState(Graphics g) {
-		g.setColor(Color.ORANGE);
-		g.fillRect(0, 0, 500, 800); 
+		c = new Color(255,216,76);
+		g.setColor(c);
+		g.fillRect(0, 0, 500, 75);
+		g.fillRect(0,700,500,100);
+		c = new Color(206,174,59);
+		g.setColor(c);
+		g.fillRect(0, 70, 500, 5); 
 		g.setColor(Color.BLUE);
 		g.fillRect(0, 75, 500, 625);
 		om.draw(g);

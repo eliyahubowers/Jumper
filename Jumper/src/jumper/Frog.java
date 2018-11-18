@@ -11,6 +11,8 @@ public class Frog extends GameObject{
 	int current;
 	int againstCurrent;
 	
+	Color c;
+	
 	Frog(int x, int y, int width, int height, int speed, int xmomentum, int ymomentum) {
 		super(x, y, width, height);
 		this.speed = speed;
@@ -21,8 +23,12 @@ public class Frog extends GameObject{
 	}
 	
 	void draw(Graphics g){
-	        g.setColor(Color.GREEN);
-	        g.fillRect(x, y, width, height);		
+	    c = new Color(46,219,66);
+	    g.setColor(c);
+	    g.fillRect(x, y-5, width, height);		
+	    c = new Color(41,173,56);
+	    g.setColor(c);
+	    g.fillRect(x, y+15, width, height-20);
 	}
 	
 	void update() {
@@ -40,6 +46,17 @@ public class Frog extends GameObject{
 		ymomentum = 0;
 		xmomentum = 0;
 		
+		if(this.y > 700 || this.y <= 75) {
+			if(this.x < 0 ) {
+				this.x = 0;
+			}else if(this.x+this.width > 500) {
+				this.x = 500-this.width;
+			}
+		}if(this.y+this.height-5 > 800) {
+			this.y = 800-height;
+		}else if(this.y < 0) {
+			this.y = 0;
+		}
 		if(this.x < 0 || this.x+this.width > 500) {
 			this.isAlive = false;
 		}

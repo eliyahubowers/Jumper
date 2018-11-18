@@ -2,10 +2,12 @@ package jumper;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Logs extends GameObject{
 	
 	int speed;
+	Color c;
 	
 	Logs(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height);
@@ -25,9 +27,11 @@ public class Logs extends GameObject{
 	}
 	
 	void draw(Graphics g) {
-		Color c = new Color(99,71,52);
+		c = new Color(99,71,52);
 		g.setColor(c);
 		g.fillRect(x, y, width, height);
+		c = new Color(61,41,28);
+		g.setColor(c);
+		g.fillRect(x,y+20,width, height-20);
 	}
-	
 }
