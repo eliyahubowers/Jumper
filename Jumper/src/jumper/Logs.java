@@ -26,12 +26,13 @@ public class Logs extends GameObject{
 		return this.speed;
 	}
 	
-	void draw(Graphics g) {
+	void drawDark(Graphics g) {
+		c = new Color(61,41,28);
+		g.setColor(c);
+		g.fillRect(x,y+25,width, height-20);
+	}void drawMain(Graphics g){
 		c = new Color(99,71,52);
 		g.setColor(c);
 		g.fillRect(x, y, width, height);
-		c = new Color(61,41,28);
-		g.setColor(c);
-		g.fillRect(x,y+20,width, height-20);
 	}
 }

@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Font titleFontt;
 	Font deathFont;
 	
+	float delayJump = 0;
+	
 	Timer t; 
 	
 	GameObject go;
@@ -63,7 +65,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void updateEndState() {
 	}	
 	void drawStartState(Graphics g) {
-		g.setColor(Color.RED);
+		c = new Color(94, 165, 219);
+		g.setColor(c);
 		g.fillRect(0, 0, 500, 800); 
 		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
@@ -76,7 +79,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.drawString("Press ENTER to start", 130, 500);
 	}	
 	void drawInstructionState(Graphics g) {
-		g.setColor(Color.WHITE);
+		c = new Color(255, 255, 255);
+		g.setColor(c);
 		g.fillRect(0, 0, 500, 800); 
 		g.setFont(instructFont);
 		g.setColor(Color.BLACK);
@@ -90,19 +94,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.drawString("to cross the river safely", 30, 440);
 	}	
 	void drawGameState(Graphics g) {
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, 500, 800);
 		c = new Color(255,216,76);
 		g.setColor(c);
 		g.fillRect(0, 0, 500, 75);
 		g.fillRect(0,700,500,100);
 		c = new Color(206,174,59);
 		g.setColor(c);
-		g.fillRect(0, 70, 500, 5); 
-		g.setColor(Color.BLUE);
-		g.fillRect(0, 75, 500, 625);
+		g.fillRect(0, 75, 500, 5); 
 		om.draw(g);
 	}	
 	void drawEndState(Graphics g) {
-		g.setColor(Color.YELLOW);
+		c = new Color(193, 40, 17);
+		g.setColor(c);
 		g.fillRect(0, 0, 500, 800); 
 		g.setFont(deathFont);
 		g.setColor(Color.BLACK);
@@ -154,16 +159,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		System.out.println("Pressed");	
+		if(delayJump <= 0) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN||e.getKeyCode() == KeyEvent.VK_S) {
 			fu.setymomentum(1);
+			delayJump +=.00025;
 		}else if(e.getKeyCode() == KeyEvent.VK_UP||e.getKeyCode() == KeyEvent.VK_W) {
 			fu.setymomentum(-1);
+			delayJump +=.00025;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D) {
 			fu.setxmomentum(1);
+			delayJump +=.00025;
 		}else if(e.getKeyCode() == KeyEvent.VK_LEFT||e.getKeyCode() == KeyEvent.VK_A) {
 			fu.setxmomentum(-1);
+			delayJump +=.00025;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE){
+		}else {
+			delayJump-=.001;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE && currentState != GAME_STATE){
           currentState++;
 		  if(currentState > END_STATE){
 			  fu = new Frog(250,750,25,25,25,0,0);

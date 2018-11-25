@@ -11,6 +11,8 @@ public class Frog extends GameObject{
 	int current;
 	int againstCurrent;
 	
+	int lives;
+	
 	Color c;
 	
 	Frog(int x, int y, int width, int height, int speed, int xmomentum, int ymomentum) {
@@ -20,6 +22,7 @@ public class Frog extends GameObject{
 		this.ymomentum = ymomentum;
 		this.current = 5;
 		this.againstCurrent = 0;
+		this.lives = 3;
 	}
 	
 	void draw(Graphics g){
@@ -28,7 +31,16 @@ public class Frog extends GameObject{
 	    g.fillRect(x, y-5, width, height);		
 	    c = new Color(41,173,56);
 	    g.setColor(c);
-	    g.fillRect(x, y+15, width, height-20);
+	    g.fillRect(x, y+20, width, height-20);
+	    
+	    for(int i = 0; i < lives; i ++) {
+		    c = new Color(46,219,66);
+		    g.setColor(c);
+		    g.fillRect((i*30)+10, 740, width, height);		
+		    c = new Color(41,173,56);
+		    g.setColor(c);
+		    g.fillRect((i*30)+10, 760, width, height-20);
+	    }
 	}
 	
 	void update() {
@@ -46,7 +58,7 @@ public class Frog extends GameObject{
 		ymomentum = 0;
 		xmomentum = 0;
 		
-		if(this.y > 700 || this.y <= 75) {
+		if(this.y >= 700 || this.y < 75) {
 			if(this.x < 0 ) {
 				this.x = 0;
 			}else if(this.x+this.width > 500) {
@@ -58,7 +70,13 @@ public class Frog extends GameObject{
 			this.y = 0;
 		}
 		if(this.x < 0 || this.x+this.width > 500) {
-			this.isAlive = false;
+			this.lives -=1;
+			if(this.lives >= 0) {
+				this.x = 250;
+			    this.y = 750;
+			}else{
+			    this.isAlive = false;
+			}
 		}
 		
 	}

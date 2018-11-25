@@ -26,7 +26,11 @@ public class ObjectManager {
 	
 	void draw(Graphics g) {
 		for(Logs l : logs) {
-			l.draw(g);
+			if(l.y != 675) {
+			l.drawDark(g);
+			}
+		}for(Logs l : logs) {
+			l.drawMain(g);
 		}
 		f.draw(g);
 	}
@@ -60,7 +64,7 @@ public class ObjectManager {
 	
 	public void manageLogs(){
         if(System.currentTimeMillis() - logTimer >= logSpawnTime) {
-                addLogs(new Logs(500, (new Random().nextInt(25)+3)*25, (new Random().nextInt(3)+4)*25, 25, 1));
+                addLogs(new Logs(500,  ( new Random().nextInt(25)+3 )*25 , ( new Random().nextInt(3)+4 )*25, 25, 1));
                 logSpawnTime = new Random().nextInt(300)+150; //300,150
                 logTimer = System.currentTimeMillis();
         }
