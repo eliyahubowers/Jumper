@@ -30,6 +30,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	
 	float delayJump = 0;
 	
+	float score;
+	float finalScore;
+	
+	long time;
+	long startTime;
+	
 	Timer t; 
 	
 	GameObject go;
@@ -47,6 +53,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		go = new GameObject(100,100,100,100);
 		fu = new Frog(250,750,25,25,25,0,0);
 		om = new ObjectManager(fu);
+		time = 50000; 
+	    startTime = System.currentTimeMillis();
 	}
 	
 	void updateStartState() {
@@ -58,6 +66,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		om.manageLogs();
 		om.purgeObjects();
 		om.checkCollision();
+		
+		if(System.currentTimeMillis() - time >= startTime){        
+			fu.dead();			
+            time = 50000; 
+            startTime = System.currentTimeMillis();
+        }
+		
 		if(fu.isAlive == false) {
 			currentState = END_STATE;
 		}
@@ -88,21 +103,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.drawString("Press", 200, 100);
 		g.drawString("w , s , a , d /", 140, 160);
 		g.drawString("up , down , right , left ", 70, 200);
-		g.drawString("to Move", 170, 260);
+		g.drawString("to Move", 180, 260);
 		
-		g.drawString("go on the logs and lily pads", 10, 400);
-		g.drawString("to cross the river safely", 30, 440);
+		g.drawString("go on the logs", 130, 400);
+		g.drawString("to cross the river safely.", 35, 440);
+		g.drawString("dont go off the screen",60,490);
 	}	
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, 500, 800);
+		
 		c = new Color(255,216,76);
 		g.setColor(c);
 		g.fillRect(0, 0, 500, 75);
 		g.fillRect(0,700,500,100);
+		
 		c = new Color(206,174,59);
 		g.setColor(c);
-		g.fillRect(0, 75, 500, 5); 
+		g.fillRect(0, 75, 500, 5);
+		
+		c = new Color(193,3,3);
+		g.setColor(c);
+		g.fillRect(0, 75, 2, 625);
+		g.setColor(c);
+		g.fillRect(498, 75, 2, 625);
+		
+		c = new Color(104, 83, 239);
+		g.setColor(c);
+		g.fillRect(10,780,((int)((startTime+time)-System.currentTimeMillis()))/100,10);
+		
 		om.draw(g);
 	}	
 	void drawEndState(Graphics g) {
@@ -159,28 +188,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		System.out.println("Pressed");	
-		if(delayJump <= 0) {
 		if(e.getKeyCode() == KeyEvent.VK_DOWN||e.getKeyCode() == KeyEvent.VK_S) {
-			fu.setymomentum(1);
-			delayJump +=.00025;
+			fu.setymomentum(2);
+			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_UP||e.getKeyCode() == KeyEvent.VK_W) {
-			fu.setymomentum(-1);
-			delayJump +=.00025;
+			fu.setymomentum(-2);
+			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D) {
-			fu.setxmomentum(1);
-			delayJump +=.00025;
+			fu.setxmomentum(2);
+			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_LEFT||e.getKeyCode() == KeyEvent.VK_A) {
-			fu.setxmomentum(-1);
-			delayJump +=.00025;
-		}
-		}else {
-			delayJump-=.001;
+			fu.setxmomentum(-2);
+			delayJump = 1;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE && currentState != GAME_STATE){
           currentState++;
 		  if(currentState > END_STATE){
 			  fu = new Frog(250,750,25,25,25,0,0);
 			  om = new ObjectManager(fu);
+			  time = 50000; 
+		      startTime = System.currentTimeMillis();
+		      score = 0;
+		      finalScore = 0;
 	          currentState = START_STATE;
 		  }
 		}else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
