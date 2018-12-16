@@ -6,10 +6,10 @@ import java.awt.Graphics;
 public class Frog extends GameObject{
 	
 	int speed;
-	int xmomentum;
+	double xmomentum;
 	int ymomentum;
-	int current;
-	int againstCurrent;
+	final int oldCurrent = 5;
+	int nowCurrent;
 	
 	int score;
 	
@@ -22,8 +22,7 @@ public class Frog extends GameObject{
 		this.speed = speed;
 		this.xmomentum = xmomentum;
 		this.ymomentum = ymomentum;
-		this.current = 5;
-		this.againstCurrent = 0;
+		this.nowCurrent = oldCurrent;
 		this.lives = 3;
 	}
 	
@@ -47,16 +46,16 @@ public class Frog extends GameObject{
 	
 	void update() {
 		super.update();
+		if(this.y < 700 && this.y >= 75) {
+			this.x+=nowCurrent;
+		}
+		if(this.xmomentum == -1 && nowCurrent == 0) {
+			this.xmomentum = -.75;
+			System.out.println(nowCurrent);
+		}
 		this.x+=(speed*xmomentum);
 		this.y+=(speed*ymomentum);
-		if(this.y < 700 && this.y >= 75) {
-			if(againstCurrent == 0) {
-				this.x+=current;
-			}else{
-				this.x-=againstCurrent;
-			}
-		}
-		againstCurrent = 0;
+		
 		ymomentum = 0;
 		xmomentum = 0;
 		

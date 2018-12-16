@@ -30,8 +30,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	
 	float delayJump = 0;
 	
-	float score;
-	float finalScore;
+	int currentScore;
+	int updateScore;
+	
+	int Finalscore;
+	int bestScore;
 	
 	long time;
 	long startTime;
@@ -53,8 +56,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		go = new GameObject(100,100,100,100);
 		fu = new Frog(250,750,25,25,25,0,0);
 		om = new ObjectManager(fu);
-		time = 50000; 
+		time = 60000; 
 	    startTime = System.currentTimeMillis();
+	    currentScore = 0;
+		updateScore = 0;
 	}
 	
 	void updateStartState() {
@@ -67,14 +72,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		om.purgeObjects();
 		om.checkCollision();
 		
+		updateScore = fu.score;
+		if(updateScore > currentScore) {
+			currentScore = updateScore;
+			startTime = System.currentTimeMillis();
+			if(fu.lives < 5) {
+			fu.lives ++;
+			}
+		}
+		
 		if(System.currentTimeMillis() - time >= startTime){        
-			fu.dead();			
-            time = 50000; 
+			fu.isAlive = false;			
+            time = 60000; 
             startTime = System.currentTimeMillis();
         }
 		
 		if(fu.isAlive == false) {
 			currentState = END_STATE;
+			this.Finalscore = fu.score;
+			if(this.Finalscore > this.bestScore) {
+				this.bestScore = this.Finalscore;
+			}
 		}
 	}	
 	void updateEndState() {
@@ -130,7 +148,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 		c = new Color(104, 83, 239);
 		g.setColor(c);
-		g.fillRect(10,780,((int)((startTime+time)-System.currentTimeMillis()))/100,10);
+		g.fillRect(10,780,((int)((startTime+time)-System.currentTimeMillis()))/120,10);
 		
 		om.draw(g);
 	}	
@@ -146,6 +164,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.setFont(titleFontt);
 		
 		g.drawString("Press ENTER to try again", 110, 300);
+		
+		g.drawString("your score is : " + Finalscore, 100, 350);
+		g.drawString("the best score is : " + bestScore, 100, 370);
 	}	
 	void StartGame() {
 		t.start();
@@ -189,16 +210,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		System.out.println("Pressed");	
 		if(e.getKeyCode() == KeyEvent.VK_DOWN||e.getKeyCode() == KeyEvent.VK_S) {
-			fu.setymomentum(2);
+			fu.setymomentum(1);
 			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_UP||e.getKeyCode() == KeyEvent.VK_W) {
-			fu.setymomentum(-2);
+			fu.setymomentum(-1);
 			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D) {
-			fu.setxmomentum(2);
+			fu.setxmomentum(1);
 			delayJump = 1;
 		}else if(e.getKeyCode() == KeyEvent.VK_LEFT||e.getKeyCode() == KeyEvent.VK_A) {
-			fu.setxmomentum(-2);
+			fu.setxmomentum(-1);
 			delayJump = 1;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER  && currentState != INSTRUCTION_STATE && currentState != GAME_STATE){
@@ -206,10 +227,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		  if(currentState > END_STATE){
 			  fu = new Frog(250,750,25,25,25,0,0);
 			  om = new ObjectManager(fu);
-			  time = 50000; 
+			  time = 60000; 
 		      startTime = System.currentTimeMillis();
-		      score = 0;
-		      finalScore = 0;
+		      Finalscore = 0;
+		      currentScore = 0;
+		      updateScore = 0;
 	          currentState = START_STATE;
 		  }
 		}else if(e.getKeyCode() == KeyEvent.VK_SPACE) {

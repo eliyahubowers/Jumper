@@ -57,15 +57,17 @@ public class ObjectManager {
 	void checkCollision() {
 		for(Logs l : logs){
 	        if(f.collisionBox.intersects(l.collisionBox)){
-	                f.againstCurrent = l.getSpeed();
+	                f.nowCurrent = l.getSpeed()*-1;
+	        }else{
+	        		f.nowCurrent = f.oldCurrent;
 	        }
 	}
 	}
 	
 	public void manageLogs(){
         if(System.currentTimeMillis() - logTimer >= logSpawnTime) {
-                addLogs(new Logs( 500 ,  ( new Random().nextInt(25)+3 )*25 , ( new Random().nextInt(4)+4 )*25 , 25 , 1 ));
-                logSpawnTime = new Random().nextInt(300)+150; //300,150
+                addLogs(new Logs( 500 ,  ( new Random().nextInt(25)+2 )*25 , ( new Random().nextInt(3)+5 )*25 , 25 , 1 ));
+                logSpawnTime = new Random().nextInt(300)+120; //300,120
                 logTimer = System.currentTimeMillis();
         }
    }
