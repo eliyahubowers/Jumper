@@ -8,7 +8,7 @@ public class Frog extends GameObject{
 	int speed;
 	double xmomentum;
 	int ymomentum;
-	final int oldCurrent = 5;
+	final int oldCurrentOne = 5;
 	int nowCurrent;
 	
 	int score;
@@ -22,7 +22,7 @@ public class Frog extends GameObject{
 		this.speed = speed;
 		this.xmomentum = xmomentum;
 		this.ymomentum = ymomentum;
-		this.nowCurrent = oldCurrent;
+		this.nowCurrent = oldCurrentOne;
 		this.lives = 3;
 	}
 	
@@ -48,10 +48,6 @@ public class Frog extends GameObject{
 		super.update();
 		if(this.y < 700 && this.y >= 75) {
 			this.x+=nowCurrent;
-		}
-		if(this.xmomentum == -1 && nowCurrent == 0) {
-			this.xmomentum = -.75;
-			System.out.println(nowCurrent);
 		}
 		this.x+=(speed*xmomentum);
 		this.y+=(speed*ymomentum);
